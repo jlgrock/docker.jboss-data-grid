@@ -1,0 +1,56 @@
+#
+# Configure line ending normalisation for this repository.
+# See http://schacon.github.io/git/gitattributes.html for more information.
+#
+# Also each developer should configure the old style normalisation on her workstation
+# (see http://timclem.wordpress.com/2012/03/01/mind-the-end-of-your-line/):
+#
+# Windows user should use: git config --global core.autocrlf = true
+# Unix/Linux users should use: git config --global core.autocrlf = input
+#
+
+# Auto detect text files and perform LF normalization
+*				text=auto
+
+# Java sources
+*.java          text diff=java
+*.gradle        text diff=java
+*.gradle.kts    text diff=java
+
+# Maven sources
+*.pom			text diff=xml
+
+# Properties files
+*.properties	text
+*.xml			text
+
+# Shell files
+*.bash			text eol=lf
+*.bat			text eol=crlf
+*.cmd			text eol=crlf
+
+# Web files
+*.map			text -diff
+*.coffee		text
+*.css			text
+*.htm			text diff=html
+*.html			text diff=html
+*.xhtml			text diff=html
+*.js			text
+*.json			text
+*.less			text
+*.sass			text
+*.scss			text diff=css
+
+# Documentation
+*.md			text
+*.txt			text
+CHANGELOG		text
+CHANGES			text
+copyright		text
+COPYRIGHT		text
+license			text
+LICENSE			text
+NEWS			text
+readme			text
+README			text

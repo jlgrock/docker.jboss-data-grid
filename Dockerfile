@@ -1,25 +1,24 @@
-FROM jlgrock/centos-oraclejdk:6.6-8u45
+FROM 481315189088.dkr.ecr.us-east-1.amazonaws.com/deloitte-irsm/centos-openjdk:6.6-8u221
 MAINTAINER Justin Grant <jlgrock@gmail.com>
 
-# Set the INFINISPAN_SERVER_HOME env variable
-ENV INFINISPAN_SERVER_HOME /opt/jboss/infinispan-server
+ENV EAP_PARENT /opt/app/jboss
+ENV INSTALL_DIR ${EAP_PARENT}/install-files
+ENV EAP_HOME ${EAP_PARENT}/jboss-jdg
+
+RUN mkdir -p ${EAP_PARENT}/ \
+             ${EAP_PARENT}/jboss-jdg \
+             ${INSTALL_DIR}
 
 ADD resources/ $EAP_PARENT/
-ADD install_files/ $EAP_PARENT/
-ADD VERSION $INFINISPAN_SERVER_HOME/VERSION
-ADD loadenv.sh $INFINISPAN_SERVER_HOME/loadenv.sh
+ADD install-files/ /opt/app/jboss/install-files
 
-WORKDIR $INFINISPAN_SERVER_HOME
+#set the working directory for the installation
+WORKDIR ${EAP_PARENT}
 
-# Set the INFINISPAN_VERSION env variable
-ENV INFINISPAN_VERSION 8.0.0.Final
+# Install JBOSS DataGrid
+RUN ./install_jdg.sh
 
-# Download and unzip Infinispan server
-RUN cd $HOME && curl http://downloads.jboss.org/infinispan/$INFINISPAN_VERSION/infinispan-server-$INFINISPAN_VERSION-bin.zip | bsdtar -xf - && mv $HOME/infinispan-server-$INFINISPAN_VERSION $HOME/infinispan-server && chmod +x /opt/jboss/infinispan-server/bin/standalone.sh
+# Set the working directory for execution
+WORKDIR ${EAP_HOME}
 
-### Start JBoss Data Grid
-CMD $EAP_HOME/startup.sh
-
-# Run Infinispan server and bind to all interface
-CMD ["/opt/jboss/infinispan-server/bin/standalone.sh", "-b", "0.0.0.0"]
-
+ENTRYPOINT ["./entrypoint.sh"]
