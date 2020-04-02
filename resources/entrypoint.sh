@@ -10,7 +10,7 @@ create_user() {
 
 start_standalone() {
 
-    ${EAP_HOME}/jboss-datagrid-7.3.0-server/bin/standalone.sh
+    ${JDG_HOME}/jboss-datagrid-7.3.0-server/bin/standalone.sh
 }
 
 start_standalone
