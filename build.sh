@@ -15,9 +15,9 @@
 
 echo "Processing for JBOSS Data Grid Version $JBOSS_JDG"
 
-if [ ! -e install_files/jboss-datagrid-${JBOSS_JDG}-1-server.zip ]
+if [ ! -e install_files/jboss-datagrid-${JBOSS_JDG}-server.zip ]
 then
-    echo "could not find file install_files/jboss-datagrid-${JBOSS_JDG}-1-server.zip"
+    echo "could not find file install_files/jboss-datagrid-${JBOSS_JDG}-server.zip"
     echo "You should put the required binary into the root directory first."
     exit 255
 fi

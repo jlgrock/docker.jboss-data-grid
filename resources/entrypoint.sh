@@ -20,13 +20,13 @@ set_defaults() {
 
 ### Create  User
 create_user() {
-     ${JDG_HOME}/jboss-datagrid-7.3.0-server/bin/add-user.sh -a -u ${JDG_USERNAME} -p ${JDG_PASSWORD} -ro supervisor,reader,writer --silent
+     ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/add-user.sh -a -u ${JDG_USERNAME} -p ${JDG_PASSWORD} -ro supervisor,reader,writer --silent
 }
 
 
 start_standalone() {
 
-    ${JDG_HOME}/jboss-datagrid-7.3.0-server/bin/standalone.sh -c standalone.xml
+    ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/standalone.sh -c standalone.xml
 }
 
 set_defaults
