@@ -1,0 +1,20 @@
+version: '3.5'
+
+# build your image
+# >docker-compose build
+#
+# create containers (will recreate containers only if your docker build dir changes)
+# >docker-compose up
+#
+# create containers
+# >docker-compose up --force-recreate
+
+services:
+  rhjdg:
+    image: deloitte-irsm/rhjdg:7.3.5
+    build:
+      context: .
+    container_name: rhjdg
+    ports:
+      - 9990:9990
+      - 8080:8080

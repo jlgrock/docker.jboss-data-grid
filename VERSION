@@ -1,4 +1,4 @@
 # A key/value list of all known versions
 CENTOS=6.6
 JDK=8u45
-JDG_VERSION
+JBOSS_JDG=7.3.1
