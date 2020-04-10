@@ -15,7 +15,7 @@
 
 echo "Processing for JBOSS Data Grid Version $JBOSS_JDG"
 
-if [ ! -e install_files/jboss-datagrid-${JBOSS_JDG}-server.zip ]
+if [ ! -e install_files/jboss-datagrid-${JBOSS_JDG_BASE}-server.zip ]
 then
     echo "could not find file install_files/jboss-datagrid-${JBOSS_JDG}-server.zip"
     echo "You should put the required binary into the root directory first."
@@ -24,7 +24,7 @@ fi
 
 # Create containers
 echo "Creating JBoss Data Grid Container ..."
-docker build -q --rm -t deloitte-irsm/rhjdg:$JBOSS_JDG .
+docker build -q --rm -t deloitte-irsm/rhjdg:${JBOSS_JDG} .
 
 if [ $? -eq 0 ]; then
     echo "Container Built"
