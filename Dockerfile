@@ -21,4 +21,6 @@ RUN ./install_jdg.sh
 # Set the working directory for execution
 WORKDIR ${JDG_HOME}
 
+VOLUME ["/data"]
+
 ENTRYPOINT ["./entrypoint.sh"]
