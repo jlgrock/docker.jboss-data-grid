@@ -37,21 +37,21 @@ Or you can run docker-compose to avoid typing a long docker-run command.
 #Accessing the Admin Console
 http://localhost:9990/  
 user:admin
-pass:password123
+pass:admin123!
 
 #Adding key entries
 POST: http://localhost:8080/rest/${Cache-name}/${key}
 Body: ${value}
 Basic Authentication:
-user:cmuser
-pass:password123
+user:user
+pass:user123!
 Ex. http://localhost:8080/rest/CM_CACHE/key4Test
 
 #Retreiving cache entries
 GET: http://localhost:8080/rest/${Cache-name}/${key}
 Basic Authentication:
-user:cmuser
-pass:password123
+user:user
+pass:user123!
 Ex. http://localhost:8080/rest/CM_CACHE/key1Test
 	http://localhost:8080/rest/CM_CACHE/key2Test
 	http://localhost:8080/rest/CM_CACHE/key3Test
@@ -64,11 +64,11 @@ inside container execute /bin/add-user.sh
 
 Default Management user:
 user:admin
-pass:password123
+pass:admin123!
 
 Default Rest user:
-user:cmuser
-pass:password123
+user:user
+pass:user123!
 
 #Adding Cache Stores that persists to disk
 May use the Management Console on port 9990 or 

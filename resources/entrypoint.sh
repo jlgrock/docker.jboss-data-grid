@@ -10,11 +10,19 @@ set_defaults() {
     fi
 
     if [[ ! "${JDG_USERNAME}" ]]; then
-        JDG_USERNAME="admin"
+        JDG_USERNAME="user"
     fi
 
     if [[ ! "${JDG_PASSWORD}" ]]; then
-        JDG_PASSWORD="admin123!"
+        JDG_PASSWORD="user123!"
+    fi
+	
+	if [[ ! "${JDG_ADMIN_USERNAME}" ]]; then
+        JDG_ADMIN_USERNAME="admin"
+    fi
+
+    if [[ ! "${JDG_ADMIN_PASSWORD}" ]]; then
+        JDG_ADMIN_PASSWORD="admin123!"
     fi
 }
 
@@ -35,20 +43,37 @@ create_option_string() {
 
 ### Create  User
 create_user() {
-     ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/add-user.sh -a -u ${JDG_USERNAME} -p ${JDG_PASSWORD} -ro admin --silent
+echo "Adding users"
+     ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/add-user.sh -m -u ${JDG_ADMIN_USERNAME} -p ${JDG_ADMIN_PASSWORD} -ro admin --silent
+	 ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/add-user.sh -a -u ${JDG_USERNAME} -p ${JDG_PASSWORD} -ro user --silent
 }
-
 
 start_standalone() {
 
     create_option_string
 
     ${JDG_HOME}/jboss-datagrid-7.3.1-server/bin/standalone.sh -c standalone.xml ${OPTS}
+	
 }
 
+add_cache() {
+    echo "Adding Cache Store"
+
+xmlstarlet ed --inplace \
+-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']" -t elem -n "local-cache" -v "" \
+-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][not(@*)]" -t attr -n "name" -v "CM_CACHE" \
+-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='CM_CACHE']" -t elem -n "persistence" -v "" \
+-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='CM_CACHE']/*[local-name() = 'persistence']" -t elem -n "file-store" -v "" \
+-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='CM_CACHE']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "path" -v "/files/" \
+-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='CM_CACHE']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "fetch-state" -v "true" \
+${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
+
+
+}
 set_defaults
 #check_env_values
 create_user
+add_cache
 
 case "${MODE}" in
     STANDALONE*)

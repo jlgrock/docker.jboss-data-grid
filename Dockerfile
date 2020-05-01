@@ -10,6 +10,11 @@ ENV JDG_DATA ${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/data
 RUN mkdir -p ${JDG_PARENT}/ \
              ${JDG_PARENT}/jboss-jdg \
              ${INSTALL_DIR}
+			 
+RUN touch /var/lib/rpm/* && \
+    yum install -y epel-release && \
+    yum install -y xmlstarlet \
+        unzip
 
 ADD resources/ $JDG_PARENT/
 ADD install-files/ /opt/app/jboss/install-files
@@ -23,11 +28,11 @@ RUN ./install_jdg.sh
 # Set the working directory for execution
 WORKDIR ${JDG_HOME}
 #Copy configuration
-ADD configuration/mgmt-groups.properties ${JDG_CONF}/mgmt-groups.properties
-ADD configuration/mgmt-users.properties ${JDG_CONF}/mgmt-users.properties
-ADD configuration/application-roles.properties ${JDG_CONF}/application-roles.properties
-ADD configuration/application-users.properties ${JDG_CONF}/application-users.properties
-ADD configuration/standalone.xml ${JDG_CONF}/standalone.xml
+#ADD configuration/mgmt-groups.properties ${JDG_CONF}/mgmt-groups.properties
+#ADD configuration/mgmt-users.properties ${JDG_CONF}/mgmt-users.properties
+#ADD configuration/application-roles.properties ${JDG_CONF}/application-roles.properties
+#ADD configuration/application-users.properties ${JDG_CONF}/application-users.properties
+#ADD configuration/standalone.xml ${JDG_CONF}/standalone.xml
 ADD data/files/ ${JDG_DATA}/files
 
 VOLUME ["/data"]
