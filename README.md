@@ -33,6 +33,27 @@ Or you can run docker-compose to avoid typing a long docker-run command.
 ```bash
  docker-compose up --build
 ```
+# Available Configuration Parameters
+
+*Please refer the docker run command options for the `--env-file` flag where you can specify all required environment 
+variables in a single file. This will save you from writing a potentially long docker run command.*
+
+Below is the complete list of available options that can be used to customize your installation.
+
+- **MODE**: You can either run in `STANDALONE` mode (single server), `DOMAIN_MASTER` (clustered - is required for any 
+slaves to be started), or `DOMAIN_SLAVE` (clustered - needs to be linked to the DOMAIN_MASTER).  The default is `STANDALONE`.
+- **JDG_ADMIN_USERNAME**: The username for accessing the admin console.  By default this is `admin`.  Note that users can be 
+changed/added, but currently this doesn't allow for removal without destroying the container.
+- **JDG_ADMIN_PASSWORD**: The username password for accessing the admin console.  By default this is `admin123!`.  Note that users can 
+be changed/added, but currently this doesn't allow for removal without destroying the container.
+- **JDG_USERNAME**: The username for accessing the REST API.  By default this is `user`.  Note that users can be 
+changed/added, but currently this doesn't allow for removal without destroying the container.
+- **JDG_PASSWORD**: The username password for accessing the REST API.  By default this is `user123!`.  Note that users can 
+be changed/added, but currently this doesn't allow for removal without destroying the container.
+- **JDG_CACHE_NAME**: The cache store name for storing cache. By default is `default_cache`. Note that caches can 
+be changed/added.
+- **JDG_PERSISTENCE_PATH**: The path to store the persistance file containing all cache data. By default this is `/files/` 
+- **JDG_SERVER_NAME **: The name for this server so HotRod connector can be configured. By default this is `default-server`
 
 #Accessing the Admin Console
 http://localhost:9990/  
@@ -45,16 +66,16 @@ Body: ${value}
 Basic Authentication:
 user:user
 pass:user123!
-Ex. http://localhost:8080/rest/CM_CACHE/key4Test
+Ex. http://localhost:8080/rest/default/key4Test
 
 #Retreiving cache entries
 GET: http://localhost:8080/rest/${Cache-name}/${key}
 Basic Authentication:
 user:user
 pass:user123!
-Ex. http://localhost:8080/rest/CM_CACHE/key1Test
-	http://localhost:8080/rest/CM_CACHE/key2Test
-	http://localhost:8080/rest/CM_CACHE/key3Test
+Ex. http://localhost:8080/rest/default/key1Test
+	http://localhost:8080/rest/default/key2Test
+	http://localhost:8080/rest/default/key3Test
 
 #Other operations
 https://infinispan.org/docs/dev/titles/rest/rest.html#rest_server
