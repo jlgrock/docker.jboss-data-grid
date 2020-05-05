@@ -95,20 +95,22 @@ pass:user123!
 #Adding Cache Stores that persists to disk
 May use the Management Console on port 9990 or 
 modify the .../configuration/standalone.xml file. 
-Notice there is a local-cache 'CM_CACHE'. Same way others
+Notice there is a local-cache 'default_cache'. Same way others
 could be added. 
 
 			<cache-container name="local" default-cache="default" statistics="true">
-                <security>
-                    <authorization>
-                        <identity-role-mapper/>
-                        <role name="admin" permissions="READ WRITE BULK_READ BULK_WRITE EXEC LISTEN ADMIN"/>
-                    </authorization>
-                </security>
-                <global-state/>
-                <local-cache name="CM_CACHE">
-                    <persistence>
-                        <file-store path="/files/" fetch-state="true"/>
-                    </persistence>
-                </local-cache>
-            </cache-container>
+				<global-state/>
+				<local-cache name="default"/>
+				<local-cache name="namedCache"/>
+				<local-cache name="default_cache">
+				  <persistence>
+					<file-store path="/files/" fetch-state="true"/>
+				  </persistence>
+				</local-cache>
+				<security>
+				  <authorization>
+					<identity-role-mapper/>
+					<role name="user" permissions="READ WRITE "/>
+				  </authorization>
+				</security>
+			  </cache-container>
