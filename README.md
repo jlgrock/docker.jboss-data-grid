@@ -52,9 +52,9 @@ changed/added, but currently this doesn't allow for removal without destroying t
 be changed/added, but currently this doesn't allow for removal without destroying the container.
 - **JDG_CACHE_NAME**: The cache store name for storing cache. By default is `default_cache`. Note that caches can 
 be changed/added.
-- **JDG_DISK_PERSISTENCE**: If persistence is needed or not. By default this is `true`
+- **JDG_DISK_PERSISTENCE**: If persistence is needed or not. By default this is `false`
 - **JDG_PERSISTENCE_PATH**: The path to store the persistance file containing all cache data. By default this is `/files/` 
-- **JDG_SERVER_NAME **: The name for this server so HotRod connector can be configured. By default this is `default-server`
+- **JDG_SERVER_NAME**: The name for this server so HotRod connector can be configured. By default this is `default-server`
 
 #Accessing the Admin Console
 http://localhost:9990/  

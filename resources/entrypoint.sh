@@ -30,7 +30,7 @@ set_defaults() {
     fi
 	
 	if [[ ! "${JDG_DISK_PERSISTENCE}" ]]; then
-        JDG_DISK_PERSISTENCE= "true"
+        JDG_DISK_PERSISTENCE= "false"
     fi
 	
 	if [[ ! "${JDG_PERSISTENCE_PATH}" ]]; then
