@@ -23,7 +23,7 @@ fi
 
 # Create containers
 echo "Creating JBoss Data Grid Container ..."
-docker build -q --rm -t deloitte-irsm/rhjdg:${JBOSS_JDG} .
+docker build -q --rm -t jlgrock/jboss-data-grid:${JBOSS_JDG} .
 
 if [ $? -eq 0 ]; then
     echo "Container Built"
