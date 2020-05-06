@@ -1,6 +1,6 @@
 # Introduction
 
-This is a very basic install of Infinispan (not technically JBoss Data Grid).  The goal is to update this to be the full JDG installation and parameterize this.  This is very much a work in progress, but should suit needs for initial testing.
+This is a very basic parameterized install of JBoss Data Grid.
 
 # Hardware Requirements
 
