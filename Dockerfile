@@ -1,4 +1,4 @@
-FROM 481315189088.dkr.ecr.us-east-1.amazonaws.com/deloitte-irsm/centos-openjdk:6.6-8u221
+FROM jlgrock/centos-openjdk:6.6-8u221
 MAINTAINER Justin Grant <jlgrock@gmail.com>
 
 ENV JDG_PARENT /opt/app/jboss
