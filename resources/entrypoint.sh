@@ -30,7 +30,7 @@ set_defaults() {
     fi
 	
 	if [[ ! "${JDG_DISK_PERSISTENCE}" ]]; then
-        JDG_DISK_PERSISTENCE= "false"
+        JDG_DISK_PERSISTENCE="false"
     fi
 	
 	if [[ ! "${JDG_PERSISTENCE_PATH}" ]]; then
@@ -127,7 +127,7 @@ set_defaults
 #check_env_values
 create_user
 add_cache
-	if [[${JDG_DISK_PERSISTENCE} == "true"]]; then
+	if [[ ${JDG_DISK_PERSISTENCE} == "true" ]]; then
         add_persistence
     fi
 add_security_to_cache_container
