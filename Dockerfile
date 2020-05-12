@@ -5,6 +5,7 @@ ENV JDG_PARENT /opt/app/jboss
 ENV INSTALL_DIR ${JDG_PARENT}/install-files
 ENV JDG_HOME ${JDG_PARENT}/jboss-jdg
 ENV JDG_DATA ${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/data
+ENV JDG_CONF ${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/
 
 RUN mkdir -p ${JDG_PARENT}/ \
              ${JDG_PARENT}/jboss-jdg \
@@ -26,6 +27,8 @@ RUN ./install_jdg.sh
 
 # Set the working directory for execution
 WORKDIR ${JDG_HOME}
+#Copy predefined caches and configuration
+ADD standalone.xml ${JDG_CONF}
 #Copy file with data
 ADD data/files/ ${JDG_DATA}/files
 
