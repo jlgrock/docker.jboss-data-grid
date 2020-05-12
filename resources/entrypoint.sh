@@ -26,11 +26,11 @@ set_defaults() {
 	fi
 	
 	if [[ ! "${JDG_CACHE_NAME}" ]]; then
-        JDG_CACHE_NAME="default_cache"
+        JDG_CACHE_NAMES=("default_cache")
     fi
 	
 	if [[ ! "${JDG_DISK_PERSISTENCE}" ]]; then
-        JDG_DISK_PERSISTENCE= "false"
+        JDG_DISK_PERSISTENCE="false"
     fi
 	
 	if [[ ! "${JDG_PERSISTENCE_PATH}" ]]; then
@@ -74,22 +74,31 @@ start_standalone() {
 }
 
 add_cache() {
-    echo "Adding Cache Store"
+    echo "Adding Caches"
 
-xmlstarlet ed --inplace \
--s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']" -t elem -n "local-cache" -v "" \
--i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][not(@*)]" -t attr -n "name" -v ${JDG_CACHE_NAME} \
-${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
+for i in "${JDG_CACHE_NAMES[@]}"
+do
+   : 
+   xmlstarlet ed --inplace \
+	-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']" -t elem -n "local-cache" -v "" \
+	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][not(@*)]" -t attr -n "name" -v $i \
+	${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
+done
+
 }
 
 add_persistence() {
 echo "Adding Persistence"
-xmlstarlet ed --inplace \
--s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='${JDG_CACHE_NAME}']" -t elem -n "persistence" -v "" \
--s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='${JDG_CACHE_NAME}']/*[local-name() = 'persistence']" -t elem -n "file-store" -v "" \
--i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='${JDG_CACHE_NAME}']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "path" -v ${JDG_PERSISTENCE_PATH} \
--i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='${JDG_CACHE_NAME}']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "fetch-state" -v "true" \
-${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
+for i in "${JDG_CACHE_NAMES[@]}"
+do
+   :
+	xmlstarlet ed --inplace \
+	-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']" -t elem -n "persistence" -v "" \
+	-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'persistence']" -t elem -n "file-store" -v "" \
+	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "path" -v ${JDG_PERSISTENCE_PATH} \
+	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'persistence']/*[local-name() = 'file-store']" -t attr -n "fetch-state" -v "true" \
+	${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
+done
 }
 
 add_security_to_cache_container() {
@@ -127,7 +136,7 @@ set_defaults
 #check_env_values
 create_user
 add_cache
-	if [[${JDG_DISK_PERSISTENCE} == "true"]]; then
+	if [[ ${JDG_DISK_PERSISTENCE} == "true" ]]; then
         add_persistence
     fi
 add_security_to_cache_container
