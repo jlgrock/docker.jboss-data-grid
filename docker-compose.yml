@@ -20,3 +20,9 @@ services:
     ports:
       - 9990:9990
       - 8080:8080
+      - 11222:11222
+# Requires that the AMQ compose script be started first
+networks:
+    default:
+        external:
+            name: irps-network
