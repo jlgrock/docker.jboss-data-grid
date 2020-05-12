@@ -50,7 +50,7 @@ be changed/added, but currently this doesn't allow for removal without destroyin
 changed/added, but currently this doesn't allow for removal without destroying the container.
 - **JDG_PASSWORD**: The username password for accessing the REST API.  By default this is `user123!`.  Note that users can 
 be changed/added, but currently this doesn't allow for removal without destroying the container.
-- **JDG_CACHE_NAME**: The cache store name for storing cache. By default is `default_cache`. Note that caches can 
+- **JDG_CACHE_NAMES**: Array of cache store names. The cache store names for storing cache. By default is (`default_cache`). Note that caches can 
 be changed/added.
 - **JDG_DISK_PERSISTENCE**: If persistence is needed or not. By default this is `false`
 - **JDG_PERSISTENCE_PATH**: The path to store the persistance file containing all cache data. By default this is `/files/` 
