@@ -2,7 +2,7 @@
 
 # Exit if an error is encountered
 set -e
-
+declare -a JDG_CACHE_NAMES="$JDG_CACHE_NAMES"
 ### Set defaults for any of the environment variables
 set_defaults() {
     if [[ ! "${MODE}" ]]; then
@@ -25,12 +25,12 @@ set_defaults() {
         JDG_ADMIN_PASSWORD="admin123!"
 	fi
 	
-	if [[ ! "${JDG_CACHE_NAME}" ]]; then
+	if [[ ! "${JDG_CACHE_NAMES}" ]]; then
         JDG_CACHE_NAMES=("default_cache")
     fi
 	
 	if [[ ! "${JDG_DISK_PERSISTENCE}" ]]; then
-        JDG_DISK_PERSISTENCE="false"
+        JDG_DISK_PERSISTENCE=false
     fi
 	
 	if [[ ! "${JDG_PERSISTENCE_PATH}" ]]; then
@@ -79,6 +79,7 @@ add_cache() {
 for i in "${JDG_CACHE_NAMES[@]}"
 do
    : 
+   echo $i
    xmlstarlet ed --inplace \
 	-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']" -t elem -n "local-cache" -v "" \
 	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][not(@*)]" -t attr -n "name" -v $i \
@@ -136,7 +137,7 @@ set_defaults
 #check_env_values
 create_user
 add_cache
-	if [[ ${JDG_DISK_PERSISTENCE} == "true" ]]; then
+	if [[ "${JDG_DISK_PERSISTENCE}" == "true" ]]; then
         add_persistence
     fi
 add_security_to_cache_container
