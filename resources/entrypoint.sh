@@ -107,7 +107,7 @@ done
 }
 
 add_transactional() {
-echo "Adding Persistence"
+echo "Adding Transactional"
 for i in "${JDG_CACHE_NAMES[@]}"
 do
    :
