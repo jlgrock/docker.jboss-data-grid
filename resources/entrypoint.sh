@@ -33,10 +33,6 @@ set_defaults() {
         JDG_DISK_PERSISTENCE=false
     fi
 	
-	if [[ ! "${JDG_TRANSACTIONAL}" ]]; then
-        JDG_TRANSACTIONAL=false
-    fi
-	
 	if [[ ! "${JDG_PERSISTENCE_PATH}" ]]; then
         JDG_PERSISTENCE_PATH="/files/"
     fi
@@ -106,20 +102,6 @@ do
 done
 }
 
-add_transactional() {
-echo "Adding Transactional"
-for i in "${JDG_CACHE_NAMES[@]}"
-do
-   :
-	xmlstarlet ed --inplace \
-	-s "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']" -t elem -n "transaction" -v "" \
-	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'transaction']" -t attr -n "mode" -v "NON_XA" \
-	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'transaction']" -t attr -n "locking" -v "PESSIMISTIC" \
-	-i "/*[local-name() = 'server']/*[local-name() = 'profile']/*[local-name() = 'subsystem'][namespace-uri() = 'urn:infinispan:server:core:9.4']/*[local-name() = 'cache-container']/*[local-name() = 'local-cache'][@name='$i']/*[local-name() = 'transaction']" -t attr -n "stop-timeout" -v "30000" \
-	${JDG_HOME}/jboss-datagrid-7.3.1-server/standalone/configuration/standalone.xml
-done
-}
-
 add_security_to_cache_container() {
 
 echo "Adding security to cache container"
@@ -157,9 +139,6 @@ create_user
 add_cache
 	if [[ "${JDG_DISK_PERSISTENCE}" == "true" ]]; then
         add_persistence
-    fi
-	if [[ "${JDG_TRANSACTIONAL}" == "true" ]]; then
-        add_transactional
     fi
 add_security_to_cache_container
 add_security_hotrod
