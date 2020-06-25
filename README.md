@@ -53,6 +53,7 @@ be changed/added, but currently this doesn't allow for removal without destroyin
 - **JDG_CACHE_NAMES**: Array of cache store names. The cache store names for storing cache. By default is (`default_cache`). Note that caches can 
 be changed/added.
 - **JDG_DISK_PERSISTENCE**: If persistence is needed or not. By default this is `false`
+- **JDG_TRANSACTIONAL**: If transactional capability is needed or not. By default this is `false`
 - **JDG_PERSISTENCE_PATH**: The path to store the persistance file containing all cache data. By default this is `/files/` 
 - **JDG_SERVER_NAME**: The name for this server so HotRod connector can be configured. By default this is `default-server`
 
